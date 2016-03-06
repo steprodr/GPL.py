@@ -30,8 +30,8 @@ s.headers.update({'x-test': 'true'})
 print "Downloading the file"
 thatfile = s.get(url, headers={'x-test': 'true'})
 
-file = open(in_file, 'w')
-file.write(thatfile.content)
+with open(in_file,'w') as file:
+	file.write(thatfile.content)
 file.close()
 
 #-----------------------------------------------------------------------------------------
