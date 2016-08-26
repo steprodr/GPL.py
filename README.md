@@ -12,6 +12,4 @@ in_file="/Cisco/glus.txt" <---where you want to downlaod the ~300M file too
 out_file="/Cisco/price.txt" <---- location of the "groomed" file
 
 
-gpl.py python 2 version (tested with 2.7.11)
-
-gpl3.py python 3 version (tested with 3.5.1)
+gpl.py python 3 version (tested with 3.5.2)
