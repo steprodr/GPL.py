@@ -10,7 +10,7 @@ passwd=credentials.password
 
 in_file="/Cisco/glus.txt"
 out_file="/Cisco/price.txt"
-dest=open(out_file, "wt")
+dest=open(out_file, "wt", encoding='utf-8')
 
 url='http://www.cisco.com/web/lpc/ascii/glus.web'
 
