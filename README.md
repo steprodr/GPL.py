@@ -1,4 +1,6 @@
 # GPL.py
+CURRENTLY BORKED
+
 python script to pull the Cisco global price list (320M), and manipulate it to a usable size (~6M)
 
 uses the requsts and csv modules
