@@ -10,7 +10,7 @@ passwd=credentials.password
 
 in_file="/Cisco/glus.txt"
 out_file="/Cisco/price.txt"
-dest=open(out_file, "wt", encoding='utf-8')
+dest=open(out_file, "wt")
 
 url='http://www.cisco.com/web/lpc/ascii/glus.web'
 
@@ -26,14 +26,14 @@ s.headers.update({'x-test': 'true'})
 print("Downloading the file")
 thatfile = s.get(url, headers={'x-test': 'true'})
 
-with open(in_file, 'wt') as file:
-	file.write(str(thatfile.content))
+with open(in_file, 'wb') as file:
+	file.write(thatfile.content)
 file.close()
 
-#-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 
 print("Grooming the File")
-with open(in_file, 'rt')as groom:
+with open(in_file, 'rt', encoding="ISO-8859-1")as groom:
 	reader=csv.reader(groom, delimiter="|")
 	writer=csv.writer(dest, delimiter="|")
 
