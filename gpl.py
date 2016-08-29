@@ -30,7 +30,7 @@ with open(in_file, 'wb') as file:
 	file.write(thatfile.content)
 file.close()
 
------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
 
 print("Grooming the File")
 with open(in_file, 'rt', encoding="ISO-8859-1")as groom:
