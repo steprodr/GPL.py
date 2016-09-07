@@ -2,6 +2,8 @@
 
 import requests, csv, credentials
 
+version =1.3
+
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
 
