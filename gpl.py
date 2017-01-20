@@ -34,7 +34,7 @@ s = requests.Session()
 s.auth = (userid, passwd)
 s.verify = certifi.where()
 
-print("Downloading and cleaning up the file")
+print("Downloading the file")
 thatfile=s.post(url  + 'servlet/DownloadEntirePL', headers=headers, data=payload)
 
 with open(in_file, 'wb') as file:
