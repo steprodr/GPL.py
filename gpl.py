@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import requests, csv, credentials
+import requests, certifi, csv, credentials
 
-version =1.3
+version =2.0
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
@@ -14,7 +14,17 @@ in_file="/Cisco/glus.txt"
 out_file="/Cisco/price.txt"
 dest=open(out_file, "wt")
 
-url='http://www.cisco.com/web/lpc/ascii/glus.web'
+url='https://prpub.cloudapps.cisco.com/lpc/' 
+payload='priceList=1108&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + userid + '%2C3%2C1-tier%2C'
+headers= {
+	'Origin':"https://prpub.cloudapps.cisco.com",
+	'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
+	'content-type': "application/x-www-form-urlencoded",
+	'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+	'accept-language': "en-US,en;q=0.5",
+	'accept-encoding': "gzip, deflate, br",
+	'X-Requested-With':"XMLHttpRequest"
+}
 
 #-----------------------------------------------------------------------------------------
 
@@ -22,11 +32,10 @@ url='http://www.cisco.com/web/lpc/ascii/glus.web'
 
 s = requests.Session()
 s.auth = (userid, passwd)
-s.verify = False
-s.headers.update({'x-test': 'true'})
+s.verify = certifi.where()
 
-print("Downloading the file")
-thatfile = s.get(url, headers={'x-test': 'true'})
+print("Downloading and cleaning up the file")
+thatfile=s.post(url  + 'servlet/DownloadEntirePL', headers=headers, data=payload)
 
 with open(in_file, 'wb') as file:
 	file.write(thatfile.content)
@@ -35,13 +44,13 @@ file.close()
 #-----------------------------------------------------------------------------------------
 
 print("Grooming the File")
-with open(in_file, 'rt', encoding="ISO-8859-1")as groom:
+with open(in_file, 'rt',)as groom:
 	reader=csv.reader(groom, delimiter="|")
 	writer=csv.writer(dest, delimiter="|")
 
 	for row in reader:
-		if "Product" in row:
-			writer.writerow((row[3], row[4], row[6]))
+		if "CORE" in row:
+			writer.writerow((row[3], row[4], row[5]))
 
 dest.close()
 groom.close()
