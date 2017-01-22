@@ -6,9 +6,10 @@ python script to pull the Product Only Price list from Cisco's website, and mani
 	**I am now requesitng a file from a different server. New location is actually kept up to date!
 
 script uses requests and certifi modules which need to be installed.
-"credentials" is a python script with your CCO username and Password for obsfucation
+credentials is a python script with your CCO username and Password for obsfucation
 
 username="CCO_Username"
+
 password="CCO_password"
 
 in_file= <---where you want to downlaod the file too
