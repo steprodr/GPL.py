@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import requests, certifi, csv, credentials
+import requests, certifi, csv, credentials, os
 
 version =2.0
 
@@ -10,8 +10,8 @@ version =2.0
 userid=credentials.username
 passwd=credentials.password
 
-in_file="/Cisco/glus.txt"
-out_file="/Cisco/price.txt"
+in_file=os.path.normpath("/Cisco/glus.txt")
+out_file=os.path.normpath("/Cisco/price.txt")
 dest=open(out_file, "wt")
 
 url='https://prpub.cloudapps.cisco.com/lpc/' 
