@@ -15,7 +15,7 @@ out_file=os.path.normpath("/Cisco/price.txt")
 dest=open(out_file, "wt")
 
 url='https://prpub.cloudapps.cisco.com/lpc/' 
-payload='priceList=1108&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + userid + '%2C3%2C1-tier%2C'
+payload='priceList=1109&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + userid + '%2C3%2C1-tier%2C'
 headers= {
 	'Origin':"https://prpub.cloudapps.cisco.com",
 	'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
