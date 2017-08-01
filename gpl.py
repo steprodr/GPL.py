@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 
-import requests, certifi, csv, credentials, os, shutil
+import requests, certifi, csv, os, shutil
+import credentials as creds
 
 version =3.0
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
 
-class creds():
-	userid=credentials.username
-	passwd=credentials.password
 
 class files():
 	glus=os.path.normpath("/Cisco/glus.txt")
-	price=os.path.normpath("/Cisco/price_new.txt")
+	price=os.path.normpath("/Cisco/price.txt")
 	dest=open(price, "wt")
 	old=os.path.normpath("/Cisco/price_old.txt")
 
@@ -30,37 +28,52 @@ class web():
 	'X-Requested-With':"XMLHttpRequest"
 	}
 
-def copy(files.price, files.old):
-	src_file= files.price
-	dst_dir= files.old
-	shutil.copy(old_file, new_file)
-
 
 #-----------------------------------------------------------------------------------------
 
 # Request for the file, and authentication to the page
 
-s = requests.Session()
-s.auth = (creds.userid, creds.passwd)
-s.verify = certifi.where()
-
-print("Downloading the file")
-thatfile=s.post(url  + 'servlet/DownloadEntirePL', headers=web.headers, data=web.payload)
-
-with open(glus, 'wb') as file:
-	file.write(thatfile.content)
-file.close()
+def main():
+	try:
+		s = requests.Session()
+		s.auth = (creds.userid, creds.passwd)
+		s.verify = certifi.where()
+		print("Downloading the file")
+		thatfile=s.post(web.url  + 'servlet/DownloadEntirePL', headers=web.headers, data=web.payload)
+		with open(files.glus, 'wb') as file:
+			file.write(thatfile.content)
+			file.close()
+	except (SystemExit):
+		raise
+	except (KeyboardInterrupt):
+		logging.exception
 
 #-----------------------------------------------------------------------------------------
 
-print("Grooming the File")
-with open(files.glus, 'rt',)as groom:
-	reader=csv.reader(groom, delimiter="|")
-	writer=csv.writer(files.dest, delimiter="|")
+def copy_rename(files.price, files.old):
+        src_dir= os.path.normpath("/Cisco/")
+        dst_dir= os.path.join(os.path.normpath("/Cisco/") , "old")
+        src_file = os.path.join(src_dir, old_file_name)
+        shutil.copy(src_file,dst_dir)
+        
+        dst_file = os.path.join(dst_dir, old_file_name)
+        new_dst_file_name = os.path.join(dst_dir, new_file_name)
+        os.rename(dst_file, new_dst_file_name)
 
-	for row in reader:
-		if "CORE" in row:
-			writer.writerow((row[3], row[4], row[5]))
 
-files.dest.close()
-files.groom.close()
+def manipulate():
+	print("Grooming the File")
+	with open(files.glus, 'rt',)as groom:
+		reader=csv.reader(groom, delimiter="|")
+		writer=csv.writer(files.dest, delimiter="|")
+
+		for row in reader:
+			if "CORE" in row:
+				writer.writerow((row[3], row[4], row[5]))
+		files.dest.close()
+		groom.close()
+
+if __name__ == '__main__':
+#	main()
+	copy_rename()
+	manipulate()
