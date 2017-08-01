@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
 
-import requests, certifi, csv, credentials, os
+import requests, certifi, csv, credentials, os, shutil
 
-version =2.0
+version =3.0
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
 
-userid=credentials.username
-passwd=credentials.password
+class creds():
+	userid=credentials.username
+	passwd=credentials.password
 
-in_file=os.path.normpath("/Cisco/glus.txt")
-out_file=os.path.normpath("/Cisco/price.txt")
-dest=open(out_file, "wt")
+class files():
+	glus=os.path.normpath("/Cisco/glus.txt")
+	price=os.path.normpath("/Cisco/price_new.txt")
+	dest=open(price, "wt")
+	old=os.path.normpath("/Cisco/price_old.txt")
 
-url='https://prpub.cloudapps.cisco.com/lpc/' 
-payload='priceList=1109&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + userid + '%2C3%2C1-tier%2C'
-headers= {
+class web():
+	url='https://prpub.cloudapps.cisco.com/lpc/' 
+	payload='priceList=1109&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + creds.userid + '%2C3%2C1-tier%2C'
+	headers= {
 	'Origin':"https://prpub.cloudapps.cisco.com",
 	'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
 	'content-type': "application/x-www-form-urlencoded",
@@ -24,33 +28,39 @@ headers= {
 	'accept-language': "en-US,en;q=0.5",
 	'accept-encoding': "gzip, deflate, br",
 	'X-Requested-With':"XMLHttpRequest"
-}
+	}
+
+def copy(files.price, files.old):
+	src_file= files.price
+	dst_dir= files.old
+	shutil.copy(old_file, new_file)
+
 
 #-----------------------------------------------------------------------------------------
 
 # Request for the file, and authentication to the page
 
 s = requests.Session()
-s.auth = (userid, passwd)
+s.auth = (creds.userid, creds.passwd)
 s.verify = certifi.where()
 
 print("Downloading the file")
-thatfile=s.post(url  + 'servlet/DownloadEntirePL', headers=headers, data=payload)
+thatfile=s.post(url  + 'servlet/DownloadEntirePL', headers=web.headers, data=web.payload)
 
-with open(in_file, 'wb') as file:
+with open(glus, 'wb') as file:
 	file.write(thatfile.content)
 file.close()
 
 #-----------------------------------------------------------------------------------------
 
 print("Grooming the File")
-with open(in_file, 'rt',)as groom:
+with open(files.glus, 'rt',)as groom:
 	reader=csv.reader(groom, delimiter="|")
-	writer=csv.writer(dest, delimiter="|")
+	writer=csv.writer(files.dest, delimiter="|")
 
 	for row in reader:
 		if "CORE" in row:
 			writer.writerow((row[3], row[4], row[5]))
 
-dest.close()
-groom.close()
+files.dest.close()
+files.groom.close()
