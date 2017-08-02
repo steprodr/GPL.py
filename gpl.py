@@ -51,14 +51,9 @@ def main():
 
 def copyFile(src, dst):
 	print("Archiving Price List")
-	try:
-		print(src)
-		print(dst)
-		shutil.copyfile(src, dst)
-	except shutil.Error as e:
-		print("Error: %s" % e)
-	except IOError as e:
-		print("Error: %s % e e.sterror")
+	print(src)
+	print(dst)
+	shutil.copy(src, dst)
 
 
 def manipulate():
@@ -74,6 +69,6 @@ def manipulate():
 		groom.close()
 
 if __name__ == '__main__':
-#	main()
+	main()
 	copyFile(price, old)
-#	manipulate()
+	manipulate()
