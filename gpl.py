@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import requests, certifi, csv, os, shutil
+import requests, certifi, csv, os, shutil, sys
 import credentials as creds
 
 version =3.0
@@ -11,8 +11,8 @@ version =3.0
 
 glus=os.path.normpath("/Cisco/glus.txt")
 price=os.path.normpath("/Cisco/price.txt")
-dest=open(price, "wt")
 old=os.path.normpath("/Cisco/price_old.txt")
+
 
 class web():
 	url='https://prpub.cloudapps.cisco.com/lpc/' 
@@ -51,9 +51,10 @@ def main():
 
 def copyFile(src, dst):
 	print("Archiving Price List")
-	print(src)
-	print(dst)
-	shutil.copy(src, dst)
+	try:
+		os.replace(src, dst)
+	except (SystemExit):
+		raise
 
 
 def manipulate():
@@ -71,4 +72,5 @@ def manipulate():
 if __name__ == '__main__':
 	main()
 	copyFile(price, old)
+	dest=open(price, "wt")
 	manipulate()
