@@ -9,11 +9,10 @@ version =3.0
 #file is located the files we are going to read and write too
 
 
-class files():
-	glus=os.path.normpath("/Cisco/glus.txt")
-	price=os.path.normpath("/Cisco/price.txt")
-	dest=open(price, "wt")
-	old=os.path.normpath("/Cisco/price_old.txt")
+glus=os.path.normpath("/Cisco/glus.txt")
+price=os.path.normpath("/Cisco/price.txt")
+dest=open(price, "wt")
+old=os.path.normpath("/Cisco/price_old.txt")
 
 class web():
 	url='https://prpub.cloudapps.cisco.com/lpc/' 
@@ -40,7 +39,7 @@ def main():
 		s.verify = certifi.where()
 		print("Downloading the file")
 		thatfile=s.post(web.url  + 'servlet/DownloadEntirePL', headers=web.headers, data=web.payload)
-		with open(files.glus, 'wb') as file:
+		with open(glus, 'wb') as file:
 			file.write(thatfile.content)
 			file.close()
 	except (SystemExit):
@@ -50,30 +49,31 @@ def main():
 
 #-----------------------------------------------------------------------------------------
 
-def copy_rename(files.price, files.old):
-        src_dir= os.path.normpath("/Cisco/")
-        dst_dir= os.path.join(os.path.normpath("/Cisco/") , "old")
-        src_file = os.path.join(src_dir, old_file_name)
-        shutil.copy(src_file,dst_dir)
-        
-        dst_file = os.path.join(dst_dir, old_file_name)
-        new_dst_file_name = os.path.join(dst_dir, new_file_name)
-        os.rename(dst_file, new_dst_file_name)
+def copyFile(src, dst):
+	print("Archiving Price List")
+	try:
+		print(src)
+		print(dst)
+		shutil.copyfile(src, dst)
+	except shutil.Error as e:
+		print("Error: %s" % e)
+	except IOError as e:
+		print("Error: %s % e e.sterror")
 
 
 def manipulate():
 	print("Grooming the File")
-	with open(files.glus, 'rt',)as groom:
+	with open(glus, 'rt',)as groom:
 		reader=csv.reader(groom, delimiter="|")
-		writer=csv.writer(files.dest, delimiter="|")
+		writer=csv.writer(dest, delimiter="|")
 
 		for row in reader:
 			if "CORE" in row:
 				writer.writerow((row[3], row[4], row[5]))
-		files.dest.close()
+		dest.close()
 		groom.close()
 
 if __name__ == '__main__':
 #	main()
-	copy_rename()
-	manipulate()
+	copyFile(price, old)
+#	manipulate()
