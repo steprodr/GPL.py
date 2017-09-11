@@ -3,7 +3,7 @@
 import requests, certifi, csv, os, shutil, sys
 import credentials as creds
 
-version =3.0
+version =3.1
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
@@ -16,7 +16,7 @@ old=os.path.normpath("/Cisco/price_old.txt")
 
 class web():
 	url='https://prpub.cloudapps.cisco.com/lpc/' 
-	payload='priceList=1109&format=Ascii+Flat+File&typeSelected=ProdOnly&commaSeparateInputsForUsageMatrix=' + creds.userid + '%2C3%2C1-tier%2C'
+	payload='priceList=1109&format=Ascii+Flat+File&typeSelected=PAS&commaSeparateInputsForUsageMatrix=' + creds.userid + '%2C3%2C1-tier%2C'
 	headers= {
 	'Origin':"https://prpub.cloudapps.cisco.com",
 	'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
