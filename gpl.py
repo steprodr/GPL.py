@@ -3,7 +3,7 @@
 import requests, certifi, csv, os, shutil, sys
 import credentials as creds
 
-version =3.1
+version =3.2
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
@@ -65,7 +65,7 @@ def manipulate():
 
 		for row in reader:
 			if "CORE" in row:
-				writer.writerow((row[3], row[4], row[5]))
+				writer.writerow((row[3], row[4], row[6]))
 		dest.close()
 		groom.close()
 

@@ -1,6 +1,6 @@
 # GPL.py
 
-GPL version 3.0
+GPL version 3.2
 
 python script to pull the Global Price list, US Availability from Cisco's website, and manipulate it to a usable size (~6M)
 	**I am now requesitng the file from a different server. New location is actually kept up to date!
