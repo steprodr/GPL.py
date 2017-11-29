@@ -3,15 +3,15 @@
 import requests, certifi, csv, os, shutil, sys
 import credentials as creds
 
-version =3.2
+version =3.3
 
 #The credentials stored in credentials.py in the same directory as where this
 #file is located the files we are going to read and write too
 
 
-glus=os.path.normpath("/Cisco/glus.txt")
-price=os.path.normpath("/Cisco/price.txt")
-old=os.path.normpath("/Cisco/price_old.txt")
+glus=os.path.expanduser("~/Cisco/glus.txt")
+price=os.path.expanduser("~/Cisco/price.txt")
+old=os.path.expanduser("~/Cisco/price_old.txt")
 
 
 class web():
@@ -46,19 +46,26 @@ def main():
 		raise
 	except (KeyboardInterrupt):
 		logging.exception
+	try:
+		copyFile(price, old)
+		manipulate()
+	except (SystemExit):
+		raise
 
 #-----------------------------------------------------------------------------------------
 
 def copyFile(src, dst):
 	print("Archiving Price List")
-	try:
-		os.replace(src, dst)
-	except (SystemExit):
-		raise
+	if os.path.exists(old):
+		try:
+			os.replace(src, dst)
+		except (SystemExit):
+			raise
 
 
 def manipulate():
 	print("Grooming the File")
+	dest=open(price, "wt")
 	with open(glus, 'rt',)as groom:
 		reader=csv.reader(groom, delimiter="|")
 		writer=csv.writer(dest, delimiter="|")
@@ -69,8 +76,13 @@ def manipulate():
 		dest.close()
 		groom.close()
 
+def path_exists():
+	if not os.path.isdir('~/Cisco/'):
+		try:
+			os.makedirs('~/Cisco/')
+		except (SystemExit):
+			raise
+
+
 if __name__ == '__main__':
 	main()
-	copyFile(price, old)
-	dest=open(price, "wt")
-	manipulate()
