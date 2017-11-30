@@ -56,11 +56,10 @@ def main():
 
 def copyFile(src, dst):
 	print("Archiving Price List")
-	if os.path.exists(old):
-		try:
-			os.replace(src, dst)
-		except (SystemExit):
-			raise
+	try:
+		os.replace(src, dst)
+	except (SystemExit):
+		raise
 
 
 def manipulate():
