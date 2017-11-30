@@ -12,9 +12,9 @@ userid="CCO_Username"
 
 passwd="CCO_password"
 
-~~glus= <---where you want to download the file too
-price= <---- location of the "groomed" file called by the search script
-price_old <----backup of the price.txt for manipulation/evaluation by another script down the road~~
+~~glus= <---where you want to download the file too~~
+~~price= <---- location of the "groomed" file called by the search script~~
+~~price_old <----backup of the price.txt for manipulation/evaluation by another script down the road~~
 
 No longer callling a hard link. The script will check for a Cisco directory in the users home folder/path, if it does not exist
 it will create it. Filenames have not changed.
