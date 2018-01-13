@@ -21,13 +21,17 @@ old = os.path.expanduser("~/Cisco/price_old.txt")
 
 class web():
     url = 'https://prpub.cloudapps.cisco.com/lpc/'
-    payload = 'priceList=1109&format=Ascii+Flat+File&typeSelected=PAS&commaSeparateInputsForUsageMatrix=' + \
+    payload = 'priceList=1109&format=Ascii+Flat+File&typeSelected=PAS' +\
+        '&commaSeparateInputsForUsageMatrix=' + \
         creds.userid + '%2C3%2C1-tier%2C'
     headers = {
         'Origin': "https://prpub.cloudapps.cisco.com",
-        'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36",
+        'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) " +
+        "AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/55.0.2883.95 Safari/537.36",
         'content-type': "application/x-www-form-urlencoded",
-        'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        'accept': "text/html,application/xhtml+xml," +
+        "application/xml;q=0.9,*/*;q=0.8",
         'accept-language': "en-US,en;q=0.5",
         'accept-encoding': "gzip, deflate, br",
         'X-Requested-With': "XMLHttpRequest"
