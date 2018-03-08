@@ -6,7 +6,7 @@ import csv
 import os
 import credentials as creds
 
-version = 3.3
+version = 3.4
 
 '''
 The credentials stored in credentials.py are in the same directory
@@ -54,17 +54,9 @@ def main():
     except (SystemExit):
         raise
     except (KeyboardInterrupt):
-        try:
-            copyFile(price, old)
-            manipulate()
-        except (SystemExit):
-            raise
-
-
-def copyFile(src, dst):
-    print("Archiving Price List")
+        raise
     try:
-        os.replace(src, dst)
+        manipulate()
     except (SystemExit):
         raise
 
