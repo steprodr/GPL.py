@@ -6,7 +6,7 @@ import csv
 import os
 import credentials as creds
 
-version = 3.5
+version = 3.4
 
 '''
 The credentials stored in credentials.py are in the same directory
