@@ -6,7 +6,7 @@ import csv
 import os
 import credentials as creds
 
-version = 3.4
+version = 3.5
 
 '''
 The credentials stored in credentials.py are in the same directory
@@ -14,9 +14,9 @@ where this file is located.
 '''
 
 
+base = os.path.expanduser("~/Cisco")
 glus = os.path.expanduser("~/Cisco/glus.txt")
 price = os.path.expanduser("~/Cisco/price.txt")
-old = os.path.expanduser("~/Cisco/price_old.txt")
 
 
 class web():
@@ -39,26 +39,16 @@ class web():
 
 
 # Request for the file, and authentication to the page
-
-def main():
-    try:
-        s = requests.Session()
-        s.auth = (creds.userid, creds.passwd)
-        s.verify = certifi.where()
-        print("Downloading the file")
-        thatfile = s.post(web.url + 'servlet/DownloadEntirePL',
-                          headers=web.headers, data=web.payload)
-        with open(glus, 'wb') as file:
-            file.write(thatfile.content)
-            file.close()
-    except (SystemExit):
-        raise
-    except (KeyboardInterrupt):
-        raise
-    try:
-        manipulate()
-    except (SystemExit):
-        raise
+def get_file():
+    s = requests.Session()
+    s.auth = (creds.userid, creds.passwd)
+    s.verify = certifi.where()
+    print("Downloading the file")
+    thatfile = s.post(web.url + 'servlet/DownloadEntirePL',
+                      headers=web.headers, data=web.payload)
+    with open(glus, 'wb') as file:
+        file.write(thatfile.content)
+        file.close()
 
 
 def manipulate():
@@ -76,11 +66,17 @@ def manipulate():
 
 
 def path_exists():
-    if not os.path.isdir('~/Cisco/'):
+    if not os.path.isdir(base):
         try:
-            os.makedirs('~/Cisco/')
+            os.makedirs(base)
         except (SystemExit):
             raise
+
+
+def main():
+    path_exists()
+    get_file()
+    manipulate()
 
 
 if __name__ == '__main__':
