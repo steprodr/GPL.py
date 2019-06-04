@@ -5,6 +5,13 @@ import certifi
 import csv
 import os
 import credentials as creds
+import logging
+
+logging.basicConfig()
+logging.getLogger().setLevel(logging.DEBUG)
+req_log = logging.getLogger('urllib3')
+req_log.setLevel(logging.DEBUG)
+req_log.propagate = True
 
 version = 3.4
 
@@ -20,20 +27,23 @@ price = os.path.expanduser("~/Cisco/price.txt")
 
 
 class web():
-    url = 'https://prpub.cloudapps.cisco.com/lpc/'
+    auth_url = 'https://prpub.cloudapps.cisco.com/lpc/currentPL.faces?flow=nextgen'
+    url = 'https://prpub.cloudapps.cisco.com/lpc/servlet/DownloadEntirePL'
     payload = 'priceList=1109&format=Ascii+Flat+File&typeSelected=PAS' +\
         '&commaSeparateInputsForUsageMatrix=' + \
-        creds.userid + '%2C3%2C1-tier%2C'
+        creds.userid + '%2C3%2C1-tier%2C' + \
+        '&selectedColFrom=%2C%2C%2C7%2C11%2C12%2C14%2C15%2C16%2C17%2C19%2C20' +\
+        '&selectedColTo='
     headers = {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'Origin': "https://prpub.cloudapps.cisco.com",
-        'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) " +
+        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) " +
         "AppleWebKit/537.36 (KHTML, like Gecko) " +
         "Chrome/55.0.2883.95 Safari/537.36",
-        'content-type': "application/x-www-form-urlencoded",
-        'accept': "text/html,application/xhtml+xml," +
-        "application/xml;q=0.9,*/*;q=0.8",
-        'accept-language': "en-US,en;q=0.5",
-        'accept-encoding': "gzip, deflate, br",
         'X-Requested-With': "XMLHttpRequest"
     }
 
@@ -43,8 +53,9 @@ def get_file():
     s = requests.Session()
     s.auth = (creds.userid, creds.passwd)
     s.verify = certifi.where()
+    s.post(web.auth_url, headers=web.headers)
     print("Downloading the file")
-    thatfile = s.post(web.url + 'servlet/DownloadEntirePL',
+    thatfile = s.post(web.url,
                       headers=web.headers, data=web.payload)
     with open(glus, 'wb') as file:
         file.write(thatfile.content)
@@ -74,6 +85,11 @@ def path_exists():
 
 
 def main():
+    try:
+        from http.client import HTTPConnection
+    except ImportError:
+        from httplib import HTTPConnection
+    HTTPConnection.debuglevel = 1
     path_exists()
     get_file()
     manipulate()
