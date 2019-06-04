@@ -41,9 +41,9 @@ class web():
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Origin': "https://prpub.cloudapps.cisco.com",
-        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) " +
-        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/55.0.2883.95 Safari/537.36",
+        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) " +
+            "AppleWebKit/537.36 (KHTML, like Gecko) " +
+            "Chrome/74.0.3729.169 Safari/537.36",
         'X-Requested-With': "XMLHttpRequest"
     }
 
