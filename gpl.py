@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 version = 4.0
 
 base = os.path.expanduser("~/Cisco")
-glus = os.path.expanduser("~/Cisco/glus.txt")
+glus = os.path.expanduser("~/Cisco/glus.web")
 price = os.path.expanduser("~/Cisco/price.txt")
 
 
@@ -57,11 +57,12 @@ def get_file(base):
     alert = browser.switch_to.alert
     alert.accept()
     sleep(100)
-    for file in base:
-        if os.path.isfile(base + 'glus.web.part'):
-            continue
-    else:
-        browser.quit()
+    while True:
+        for file in base:
+            if os.path.isfile(base + 'glus.web.part'):
+                continue
+            else:
+                browser.quit()
 
 
 def manipulate():
