@@ -88,7 +88,7 @@ def path_exists():
 
 def main():
     path_exists()
-    get_file()
+    get_file(base)
     manipulate()
 
 
