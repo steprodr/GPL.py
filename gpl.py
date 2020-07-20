@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 
 
-version = 4.0
+version = 4.1
 
 base = os.path.expanduser("~/Cisco/")
 glus = os.path.expanduser("~/Cisco/glus.web")
@@ -44,7 +44,7 @@ def get_file(base):
     login2 = browser.find_element_by_id('password')
     login2.send_keys(creds.passwd, Keys.RETURN)
     wait = WebDriverWait(browser, 30)
-    print("Downloading the File")
+    print("Selecting file options")
     file_type = wait.until(
         EC.visibility_of_element_located((By.NAME, 'button1')))
     file_type = browser.find_element_by_partial_link_text(
@@ -56,13 +56,25 @@ def get_file(base):
     wait = WebDriverWait(browser, 5)
     alert = browser.switch_to.alert
     alert.accept()
-    sleep(100)
+    downloader()
+    browser.quit()
+    manipulate()
+
+
+def downloader():
+    print("Pending File Download")
+    if os.path.isfile(price):
+        os.remove(price)
     while True:
-        if os.path.isfile(base + 'glus.web.part'):
+        sleep(60)
+        if not os.path.isfile(glus):
+            print("Download still pending")
+            continue
+        elif os.path.isfile(base + 'glus.web.part'):
             print('Still Downloading.....')
         else:
             break
-    browser.quit()
+    return
 
 
 def manipulate():
@@ -90,7 +102,6 @@ def path_exists():
 def main():
     path_exists()
     get_file(base)
-    manipulate()
 
 
 if __name__ == '__main__':
